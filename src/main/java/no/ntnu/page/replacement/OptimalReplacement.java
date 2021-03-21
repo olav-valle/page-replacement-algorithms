@@ -34,17 +34,18 @@ public class OptimalReplacement extends ReplacementAlgorithm {
 
                 //find victim frame using prediction method
                 int victimIndex = findFarthestFuturePage(pageReferences, i + 1);
-                boolean replaced;
+
                 // put page in frame
+                boolean replaced = false;
                 if (victimIndex == -1) {
-                    // we can use any frame, and chose frame index 0 as default.
+                    // we can use any frame, and chose frame number 0 as default.
                     replaced = pageIn(0, pageReferences.get(i));
-                } else {
+                } else if (victimIndex < frames.length){ //safety check for valid frame number
+                    // use frame number returned by prediction method
                     replaced = pageIn(victimIndex, pageReferences.get(i));
-                    // use frame returned by prediction method
                 }
 
-                if (replaced) replacements++;
+                if (replaced) replacements++; // if pageIn returned true, we've had a page replacement
 
                 System.out.println(getFrameStatus());
             }
@@ -75,9 +76,9 @@ public class OptimalReplacement extends ReplacementAlgorithm {
      * Therefore, the return would be -1, indicating that either
      */
     private int findFarthestFuturePage(List<Integer> pageReferences, int nextPageRefIndex) {
-        int victimIdx = -1; //
-        int farthestPageIndex = nextPageRefIndex; // start looking after current page ref
-        int maxPageIndex = pageReferences.size() - 1; // So we know when to stop looking
+        int victimCandidateIdx = -1; //
+        int farthestPageIndex = nextPageRefIndex; // We start looking at page numbers after the current page ref
+        int maxPageIndex = pageReferences.size() - 1; // Highest index in pageRefs, so we know when to stop looking
 
         // check for empty frames.
         int emptyFrame = findEmptyFrame(); // -1 if all frames are full
@@ -88,30 +89,30 @@ public class OptimalReplacement extends ReplacementAlgorithm {
         //traverse frames
         for (int f = 0; f < frames.length; f++) {
 
-            //traverse pageRefs from current idx
+            //traverse pageRefs from current index onwards
             for (int p = nextPageRefIndex; p < pageReferences.size(); p++) {
 
-                //if page is in current frame
+                //if page in current frame is same as page being referenced
                 if (frames[f] == pageReferences.get(p)) {
 
-                    // we start next frame iteration at current location, since any page ref
-                    //  before this one is a worse choice
+
                     if (p > farthestPageIndex) {
+                        // we start next frame iteration at current location, since any page ref
+                        //  before this one is a worse choice
                         farthestPageIndex = p;
-                        victimIdx = f;
+                        victimCandidateIdx = f;
                     }
 
                     break; //break pageRefs traversal at first match
 
-                } else if (p == maxPageIndex) {
-                    //end of pageRefs list
-                    // page in frames[f] is never used again,
+                } else if (p == maxPageIndex) { //end of pageRefs list
+                    // page number in frames[f] is never used again,
                     // and is the best candidate.
                     return f;
                 }
             }
         }
-        return victimIdx;
+        return victimCandidateIdx;
     }
 
     /**
