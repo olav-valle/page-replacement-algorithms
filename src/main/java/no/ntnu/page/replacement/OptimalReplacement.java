@@ -62,26 +62,25 @@ public class OptimalReplacement extends ReplacementAlgorithm {
 
 
     /**
-     * }
      * Checks if any of the page numbers currently in a frame are present among the
      * remaining values of the input array (the "future").
-     * <p>
+     *
      * Returns the index of the "victim frame", i.e. the index in frames[] of the
      * page number that is used "farthest ahead in the future", or is never used again.
-     * <p>
+     *
      * Returns -1 if if none of the pages currently in frames are used again, i.e.
      * all frames are valid "victim frame" candidates.
-     * <p>
+     *
      * Example:
-     * current pages in frames: [2, 4, 5]
-     * remaining page numbers in pages: [3, 4, 1, 0, 2, 0, 4, 5, 1, 4]
-     * Of the page numbers in currently in frames (2, 4, 5), 5 is first used
-     * again after both 4 and 2 are used again. Therefore, the return value is the
-     * index of 5 in the frames[] array, i.e. 2.
-     * <p>
-     * In another example, if the current pages in frames were [6, 9, 7],
-     * neither of those three numbers come up again in the input array.
-     * Therefore, the return would be -1, indicating that either
+     *      current pages in frames: [2, 4, 5]
+     *      remaining page numbers in pages: [3, 4, 1, 0, 2, 0, 4, 5, 1, 4]
+     *      Of the page numbers in currently in frames (2, 4, 5), 5 is first used
+     *      again after both 4 and 2 are used again. Therefore, the return value is the
+     *      index of 5 in the frames[] array, i.e. 2.
+     *
+     *      In another example, if the current pages in frames were [6, 9, 7],
+     *      neither of those three numbers come up again in the input array.
+     *      Therefore, the return would be -1, indicating that either
      */
     private int findFarthestFuturePage(List<Integer> pageReferences, int nextPageRefIndex) {
         int victimIdx = -1; //
