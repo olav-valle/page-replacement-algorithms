@@ -90,9 +90,9 @@ public class OptimalReplacement extends ReplacementAlgorithm {
         for (int f = 0; f < frames.length; f++) {
 
             //traverse pageRefs from current index onwards
-            for (int p = nextPageRefIndex; p < pageReferences.size(); p++) {
-
-                //if page in current frame is same as page being referenced
+            int p = nextPageRefIndex;
+            boolean finished = false;
+            while (p < pageReferences.size() && !finished) {
                 if (frames[f] == pageReferences.get(p)) {
 
                     if (p > farthestPageIndex) {
@@ -101,18 +101,19 @@ public class OptimalReplacement extends ReplacementAlgorithm {
                         farthestPageIndex = p;
                         victimCandidateIdx = f;
                     }
-
-                    break; //break pageRefs traversal at first match
+                    finished = true;
 
                 } else if (p == maxPageIndex) { //end of pageRefs list
                     // page number in frames[f] is never used again,
                     // and is the best candidate.
-                    return f;
+                    victimCandidateIdx = f;
+                    finished = true;
                 }
             }
-        }
+            }
         return victimCandidateIdx;
     }
+
 
     /**
      * Finds index of the first empty frame.
