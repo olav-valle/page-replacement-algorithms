@@ -26,7 +26,7 @@ public abstract class ReplacementAlgorithm {
      * without replacing anything)
      * 
      * Each sub-class (specific algorithm) must implement this method!
-     * @param referenceString 
+     * @param referenceString String of numbers of pages being referenced
      * @return the number of pages replaced during handling of the reference string
      */
     public abstract int process(String referenceString);
@@ -41,11 +41,11 @@ public abstract class ReplacementAlgorithm {
     /**
      * Set number of physical frames to be used by the algorithm.
      * This function should be called before running the algorithm
-     * @param numberOfPhysicalFrames
+     * @param numberOfPhysicalFrames The number of frames to divide physical memory into.
      */
     public void setup(int numberOfPhysicalFrames) {
         if (numberOfPhysicalFrames > 0) {
-            // Initialize frame array, marke all as empty
+            // Initialize frame array, mark all as empty
             this.frames = new int[numberOfPhysicalFrames];
             for (int i = 0; i < numberOfPhysicalFrames; ++i) {
                 this.frames[i] = EMPTY;
@@ -61,7 +61,7 @@ public abstract class ReplacementAlgorithm {
     /**
      * Return true if the page is already loaded into physical RAM frame
      * @param page virtual page number
-     * @return 
+     * @return True if page number is currently loaded into a physical frame, false if not.
      */
     protected boolean isLoaded(int page) {
         for (int frame: frames) {
@@ -106,8 +106,8 @@ public abstract class ReplacementAlgorithm {
     public String getFrameStatus() {
         if (frames != null) {
             // Converts frames to string array, then join them together
-            // Just because Jave does not have join() functionfor integer array
-            String s[] = new String[frames.length];
+            // Just because Java does not have join() function for integer array
+            String[] s = new String[frames.length];
             for (int i = 0; i < frames.length; ++i) {
                 s[i] = String.valueOf(frames[i]);
             }
