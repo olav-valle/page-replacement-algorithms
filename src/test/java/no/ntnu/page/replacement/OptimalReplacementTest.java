@@ -59,6 +59,9 @@ public class OptimalReplacementTest {
         assertEquals(0, replacements);
         assertEquals("3, 0, 1", frameStatus);
         // TODO - add additional Unit tests here
+
+        //todo test with multi digit page number?
+        //todo test with
     }
    
 }

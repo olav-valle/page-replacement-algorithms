@@ -37,7 +37,7 @@ public class OptimalReplacement extends ReplacementAlgorithm {
                 boolean replaced;
                 // put page in frame
                 if (victimIndex == -1) {
-                    // we can use any frame
+                    // we can use any frame, and chose frame index 0 as default.
                     replaced = pageIn(0, pageReferences.get(i));
                 } else {
                     replaced = pageIn(victimIndex, pageReferences.get(i));
@@ -52,10 +52,6 @@ public class OptimalReplacement extends ReplacementAlgorithm {
 
         return replacements;
     }
-
-
-    // TODO - create any helper methods here if you need any
-
 
     /**
      * Checks if any of the page numbers currently in a frame are present among the
