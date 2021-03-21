@@ -40,7 +40,7 @@ public class OptimalReplacement extends ReplacementAlgorithm {
                 if (victimIndex == -1) {
                     // we can use any frame, and chose frame number 0 as default.
                     replaced = pageIn(0, pageReferences.get(i));
-                } else if (victimIndex < frames.length){ //safety check for valid frame number
+                } else if (victimIndex < frames.length) { //safety check for valid frame number
                     // use frame number returned by prediction method
                     replaced = pageIn(victimIndex, pageReferences.get(i));
                 }
@@ -87,7 +87,9 @@ public class OptimalReplacement extends ReplacementAlgorithm {
         }
 
         //traverse frames
-        for (int f = 0; f < frames.length; f++) {
+        int f = 0;
+        boolean abort = false;
+        while (f < frames.length && !abort) {
 
             //traverse pageRefs from current index onwards
             int p = nextPageRefIndex;
@@ -108,9 +110,12 @@ public class OptimalReplacement extends ReplacementAlgorithm {
                     // and is the best candidate.
                     victimCandidateIdx = f;
                     finished = true;
+                    abort = true;
                 }
+                p++;
             }
-            }
+            f++;
+        }
         return victimCandidateIdx;
     }
 
