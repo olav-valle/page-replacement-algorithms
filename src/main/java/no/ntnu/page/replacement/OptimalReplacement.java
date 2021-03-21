@@ -40,7 +40,7 @@ public class OptimalReplacement extends ReplacementAlgorithm {
                 if (victimIndex == -1) {
                     // we can use any frame, and chose frame number 0 as default.
                     replaced = pageIn(0, pageReferences.get(i));
-                } else if (victimIndex < frames.length){ //safety check for valid frame number
+                } else if (victimIndex < frames.length) { //safety check for valid frame number
                     // use frame number returned by prediction method
                     replaced = pageIn(victimIndex, pageReferences.get(i));
                 }
@@ -87,12 +87,14 @@ public class OptimalReplacement extends ReplacementAlgorithm {
         }
 
         //traverse frames
-        for (int f = 0; f < frames.length; f++) {
+        int f = 0;
+        boolean abort = false;
+        while (f < frames.length && !abort) {
 
             //traverse pageRefs from current index onwards
-            for (int p = nextPageRefIndex; p < pageReferences.size(); p++) {
-
-                //if page in current frame is same as page being referenced
+            int p = nextPageRefIndex;
+            boolean finished = false;
+            while (p < pageReferences.size() && !finished) {
                 if (frames[f] == pageReferences.get(p)) {
 
                     if (p > farthestPageIndex) {
@@ -101,18 +103,22 @@ public class OptimalReplacement extends ReplacementAlgorithm {
                         farthestPageIndex = p;
                         victimCandidateIdx = f;
                     }
-
-                    break; //break pageRefs traversal at first match
+                    finished = true;
 
                 } else if (p == maxPageIndex) { //end of pageRefs list
                     // page number in frames[f] is never used again,
                     // and is the best candidate.
-                    return f;
+                    victimCandidateIdx = f;
+                    finished = true;
+                    abort = true;
                 }
+                p++;
             }
+            f++;
         }
         return victimCandidateIdx;
     }
+
 
     /**
      * Finds index of the first empty frame.
