@@ -95,7 +95,6 @@ public class OptimalReplacement extends ReplacementAlgorithm {
                 //if page in current frame is same as page being referenced
                 if (frames[f] == pageReferences.get(p)) {
 
-
                     if (p > farthestPageIndex) {
                         // we start next frame iteration at current location, since any page ref
                         //  before this one is a worse choice
